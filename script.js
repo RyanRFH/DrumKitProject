@@ -9,34 +9,50 @@ const audioPlayer = {
     tinkSound: new Audio("./sounds/tink.wav"),
     tomSound: new Audio("./sounds/tom.wav"),
 
-    //Triggers when a button is pressed, plays audio based on clicked targets 
-    //element ID or on a key hit
-    buttonPressedPlayAudio(event) {
-        if (event.target.id === "buttonBoom" || event.key === "q") {
-            this.boomSound.play();
-        } else if (event.target.id === "buttonClap" || event.key === "w") {
-            this.clapSound.play();
-        } else if (event.target.id === "buttonHiHat" || event.key === "e") {
-            this.HiHatSound.play();
-        } else if (event.target.id === "buttonKick" || event.key === "r") {
-            this.kickSound.play();
-        } else if (event.target.id === "buttonOpenHat" || event.key === "t") {
-            this.openhatSound.play();
-        } else if (event.target.id === "buttonRide" || event.key === "u") {
-            this.rideSound.play();
-        } else if (event.target.id === "buttonSnare" || event.key === "i") {
-            this.snareSound.play();
-        } else if (event.target.id === "buttonTink" || event.key === "o") {
-            this.tinkSound.play();
-        } else if (event.target.id === "buttonTom" || event.key === "p") {
-            this.tomSound.play();
-        } else {
-            console.log("Error - Audio Not Found");
-        }
+    //Applies button animation
+    buttonPressAnimation(idOfButton) {
+        document.getElementById(idOfButton).style.border = "5px inset";
+        setTimeout(() => {
+            document.getElementById(idOfButton).style.border = "5px outset";
+        }, 1000);
+    },
 
-        //Applies button animation
-        console.log(event);
-        document.getElementById(event.target.id).style.border = "inset";
+    //This function controls audio plays and button animations
+    buttonPressedPlayAudio(event) {
+        // Checks to see if targeted element is a button or if a key was pressed, then plays the correct sound based on the target 
+        // elements ID or on the key pressed
+        if (event.target.className === "buttonsClass" || event.type === "keypress") {
+            if (event.target.id === "buttonBoom" || event.key === "q") {
+                this.boomSound.play();
+                this.buttonPressAnimation("buttonBoom");
+            } else if (event.target.id === "buttonClap" || event.key === "w") {
+                this.clapSound.play();
+                this.buttonPressAnimation("buttonClap");
+            } else if (event.target.id === "buttonHiHat" || event.key === "e") {
+                this.HiHatSound.play();
+                this.buttonPressAnimation("buttonHiHat");
+            } else if (event.target.id === "buttonKick" || event.key === "r") {
+                this.kickSound.play();
+                this.buttonPressAnimation("buttonKick");
+            } else if (event.target.id === "buttonOpenHat" || event.key === "t") {
+                this.openhatSound.play();
+                this.buttonPressAnimation("buttonOpenHat");
+            } else if (event.target.id === "buttonRide" || event.key === "u") {
+                this.rideSound.play();
+                this.buttonPressAnimation("buttonRide");
+            } else if (event.target.id === "buttonSnare" || event.key === "i") {
+                this.snareSound.play();
+                this.buttonPressAnimation("buttonSnare");
+            } else if (event.target.id === "buttonTink" || event.key === "o") {
+                this.tinkSound.play();
+                this.buttonPressAnimation("buttonTink");
+            } else if (event.target.id === "buttonTom" || event.key === "p") {
+                this.tomSound.play();
+                this.buttonPressAnimation("buttonTom");
+            } else {
+                console.log(`Error: (${event.key}) key is not a valid input`);
+            }
+        }
 
         //Checks if caps lock is enabled
         if (event.getModifierState("CapsLock")) {
@@ -46,7 +62,7 @@ const audioPlayer = {
         }
     },
 
-    //Previously used switch statement but if/else statement takes up less space
+    //Previously used switch statement, if/else statement takes up less space but switch might be easier to work with?
     // keyPressedPlayAudio(event) {
     //     switch (event.key) {
     //         case "q":
